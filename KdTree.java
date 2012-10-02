@@ -1,8 +1,4 @@
-import java.util.TreeSet;
-
-public class PointSET {
-    
-    private TreeSet<Point2D> treeSet;
+public class KdTree {
     
     // construct an empty set of points
     public PointSET(){                               
@@ -14,14 +10,14 @@ public class PointSET {
     
     // is the set empty?
     public boolean isEmpty() {
-        return this.treeSet.isEmpty();
+        
     } 
     
     
     // number of points in the set
     public int size() {
         
-        return this.treeSet.size();
+        
         
     }
     
@@ -56,4 +52,7 @@ public class PointSET {
         
         
     }
+    
+    
+    
 }
