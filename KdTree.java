@@ -1,23 +1,21 @@
 public class KdTree {
     
     // construct an empty set of points
-    public PointSET(){                               
-       
-        treeSet = new TreeSet<Point2D>();
-        
+    public KdTree(){                               
+
     }
     
     
     // is the set empty?
     public boolean isEmpty() {
-        
+        return true;
     } 
     
     
     // number of points in the set
     public int size() {
         
-        
+        return 0;
         
     }
     
@@ -29,7 +27,7 @@ public class KdTree {
     
     // does the set contain the point p?
     public boolean contains(Point2D p) {             
-        
+       return false; 
         
     }
     
@@ -42,14 +40,14 @@ public class KdTree {
     // all points in the set that are inside the rectangle 
     public Iterable<Point2D> range(RectHV rect) {
         
-
+        return null;
         
         
     }
     
     // a nearest neighbor in the set to p; null if set is empty
     public Point2D nearest(Point2D p) {
-        
+       return null; 
         
     }
     
