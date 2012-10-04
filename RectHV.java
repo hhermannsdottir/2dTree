@@ -13,6 +13,10 @@ public class RectHV {
 
     // construct the axis-aligned rectangle [xmin, xmax] x [ymin, ymax]
     public RectHV(double xmin, double ymin, double xmax, double ymax) {
+        StdOut.println("xmin: " + xmin);
+        StdOut.println("xmax: " + xmax);
+        StdOut.println("ymin: " + ymin);
+        StdOut.println("ymax: " + ymax);
         if (xmax < xmin || ymax < ymin) {
             throw new IllegalArgumentException("Invalid rectangle");
         }

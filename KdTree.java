@@ -16,41 +16,47 @@ public class KdTree {
     
     // number of points in the set
     public int size() {
-        
         if (root == null) return 0;
         else              return root.N;
-        
+    }
+    
+    // return number of Nodes rooted at x
+    private int size(Node x) {
+        if (x == null) return 0;
+        else return x.N;
     }
     
     // add the point p to the set (if it is not already in the set)
     public void insert(Point2D p) {                  
-        root = this._insert(root, p, true, false); //for the first one, we are comparing x
-        
+        root = this._insert(root, null, p, true, false); //for the first one, we are comparing x  
     }
     
     // orientation is a flag indicating which orientation we should consider
     // when we divide the Rect
-    private Node _insert(Node x, Point2D p, boolean isComparingX, boolean isLeft) {
+    private Node _insert(Node x, Node parent, Point2D p, boolean isComparingX, boolean isLeft) {
         if (x == null) {
             
             RectHV rect;
-//            if (this.root == null)
+            if (parent == null)
                 rect = new RectHV(0.0, 0.0, 1.0, 1.0);
-//            else {
-//                if (isComparingX && isLeft)
-//                    rect = new RectHV(this.root.rect.xmin(), this.root.rect.ymin(),
-//                                      this.root.p.x(), this.root.rect.ymax());
-//                else if (isComparingX && !isLeft)
-//                    rect = new RectHV(this.root.p.x(), this.root.rect.ymin(),
-//                                      this.root.rect.xmax(), this.root.rect.ymax());
-//                else if (!isComparingX && isLeft)
-//                    rect = new RectHV(this.root.rect.xmin(), this.root.rect.ymin(),
-//                                      this.root.rect.xmax(), this.root.p.y());
-//                else 
-//                    rect = new RectHV(this.root.rect.xmin(), this.root.p.y(),
-//                                      this.root.rect.xmax(), this.root.rect.ymax());
-//                
-//            }
+            else {
+                
+                StdOut.println("isComparingX: " + isComparingX);
+                StdOut.println("isLeftTree:   " + isLeft);
+                if (isComparingX && isLeft)
+                    rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
+                                      parent.p.x(), parent.rect.ymax());
+                else if (isComparingX && !isLeft)
+                    rect = new RectHV(parent.p.x(), parent.rect.ymin(),
+                                      parent.rect.xmax(), parent.rect.ymax());
+                else if (!isComparingX && isLeft)
+                    rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
+                                      parent.rect.xmax(), parent.p.y());
+                else 
+                    rect = new RectHV(parent.rect.xmin(), parent.p.y(),
+                                      parent.rect.xmax(), parent.rect.ymax());
+                
+            }
             return new Node(p, rect, null, null, 1);
         }
         int cmp;
@@ -59,18 +65,14 @@ public class KdTree {
         else
             cmp = Point2D.Y_ORDER.compare(p, x.p);
         
-        if      (cmp < 0)  x.left = _insert(x.left, p, !isComparingX, true);
-        else if (cmp >= 0) x.right = _insert(x.right, p, !isComparingX, false);
+        if      (cmp < 0)  x.left = _insert(x.left, x, p, !isComparingX, true);
+        else if (cmp >= 0) x.right = _insert(x.right, x, p, !isComparingX, false);
 
         x.N = size(x.left) + size(x.right) + 1; //update the count
         return x;  
     }
     
-    // return number of key-value pairs in BST rooted at x
-    private int size(Node x) {
-        if (x == null) return 0;
-        else return x.N;
-    }
+
     
     // does the set contain the point p?
     public boolean contains(Point2D p) {             
