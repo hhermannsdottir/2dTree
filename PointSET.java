@@ -30,7 +30,9 @@ public class PointSET {
     }
     
     // draw all of the points to standard draw
-    public void draw() {                             
+    public void draw() {   
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(.01);
         for (Point2D p : this.treeSet) {
             p.draw();
         }  
