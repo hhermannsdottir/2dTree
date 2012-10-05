@@ -43,13 +43,18 @@ public class KdTree {
                 
                 StdOut.println("isComparingX: " + isComparingX);
                 StdOut.println("isLeftTree:   " + isLeft);
-                if (isComparingX && isLeft)
+                StdOut.printf("(%f, %f)\n", parent.p.x(), parent.p.y());
+                StdOut.printf("(%f, %f), (%f, %f)\n", parent.rect.xmin(),
+                              parent.rect.ymin(), parent.rect.xmax(), 
+                              parent.rect.ymax());
+                
+                if (!isComparingX && isLeft)
                     rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
                                       parent.p.x(), parent.rect.ymax());
-                else if (isComparingX && !isLeft)
+                else if (!isComparingX && !isLeft)
                     rect = new RectHV(parent.p.x(), parent.rect.ymin(),
                                       parent.rect.xmax(), parent.rect.ymax());
-                else if (!isComparingX && isLeft)
+                else if (isComparingX && isLeft)
                     rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(),
                                       parent.rect.xmax(), parent.p.y());
                 else 
