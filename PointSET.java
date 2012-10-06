@@ -41,10 +41,10 @@ public class PointSET {
     // all points in the set that are inside the rectangle 
     public Iterable<Point2D> range(RectHV rect) {
         
-        TreeSet<Point2D> result = new TreeSet<Point2D>();
+        Queue<Point2D> result = new Queue<Point2D>();
         for (Point2D p : this.treeSet) {
             if (rect.contains(p))
-                result.add(p); 
+                result.enqueue(p); 
         }    
         return result; 
     }
@@ -56,8 +56,10 @@ public class PointSET {
         
         for (Point2D currentPoint : this.treeSet) {
             double distanceSquare = currentPoint.distanceSquaredTo(p);
-            if (distanceSquare < nearestSoFar)
+            if (distanceSquare < nearestSoFar) {
                 nearestPointSoFar = currentPoint;
+                nearestSoFar = distanceSquare;
+            }
         }    
         return nearestPointSoFar;   
     }
