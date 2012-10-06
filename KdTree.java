@@ -167,27 +167,28 @@ public class KdTree {
         if (this.isEmpty()) return null;
         
         Node nearestSoFar = root;
-        _nearest(root, nearestSoFar, p);
+        nearestSoFar = _nearest(root, nearestSoFar, p);
         
         return nearestSoFar.p;   
         
     }
     
-    private void _nearest(Node x, Node nearestSoFar, Point2D p) {
+    private Node _nearest(Node x, Node nearestSoFar, Point2D p) {
         
-        if (x == null) return;
+        if (x == null) return nearestSoFar;
         
         //calculate current nearest distance
-        double distanceToNearestSoFar = p.distanceSquaredTo(nearestSoFar.p);
-        
+        double distanceToNearestSoFar = p.distanceSquaredTo(nearestSoFar.p); 
         double distanceToX = p.distanceSquaredTo(x.p);
+
+        Node newNeareastSoFar = nearestSoFar;
         //update the nearest node so far we found
         if (distanceToX < distanceToNearestSoFar) {
-            nearestSoFar = x;
+            newNeareastSoFar = x;
             distanceToNearestSoFar = distanceToX;
         }
         
-        if (x.left == null && x.right == null) return;
+        if (x.left == null && x.right == null) return newNeareastSoFar;
         
         double leftTreeDistance  = 20.0;
         double rightTreeDistance = 20.0;
@@ -201,18 +202,19 @@ public class KdTree {
         if (leftTreeDistance < rightTreeDistance) {  
             
             if (leftTreeDistance < distanceToNearestSoFar)
-                _nearest(x.left, nearestSoFar, p); 
+                return _nearest(x.left, newNeareastSoFar, p); 
             
         } else if (leftTreeDistance > rightTreeDistance) {
             
             if (rightTreeDistance < distanceToNearestSoFar)
-                _nearest(x.right, nearestSoFar, p);
+                return _nearest(x.right, newNeareastSoFar, p);
         } else {
             if (leftTreeDistance < distanceToNearestSoFar)
-                _nearest(x.left, nearestSoFar, p);
+                return _nearest(x.left, newNeareastSoFar, p);
             if (rightTreeDistance < distanceToNearestSoFar)
-                _nearest(x.right, nearestSoFar, p);  
+                return _nearest(x.right, newNeareastSoFar, p);  
         }
+        return newNeareastSoFar;
     }
     
     private static class Node {
@@ -259,7 +261,7 @@ public class KdTree {
         Queue<Point2D> results = (Queue<Point2D>) kdtree.range(new RectHV(0, 0, 1, 1));
         for (Point2D p : results)
             StdOut.printf("%f, %f\n", p.x(), p.y());
-        Point2D searchPoint = new Point2D(0.3, 0.3);
+        Point2D searchPoint = new Point2D(0.5, 0.6);
         searchPoint.draw();
         Point2D nearestPoint = kdtree.nearest(searchPoint);
         StdOut.printf("nearest is %f, %f\n", nearestPoint.x(), nearestPoint.y());
